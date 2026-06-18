@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATSFORGE - Resume Intelligence System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Hide scrollbar for clean terminal look */
+        body::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative bg-black">
+
+    <!-- Matrix Rain Background -->
+    <canvas id="matrix-bg" class="fixed top-0 left-0 w-full h-full z-0 opacity-15 pointer-events-none"></canvas>
+
+    <!-- Navbar -->
+    <nav class="border-b border-[var(--border-neon)] bg-black/80 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-4 cursor-pointer" onclick="resetApp()">
+                    <span class="font-bold text-xl tracking-widest neon-text">>_ ATSFORGE</span>
+                </div>
+                <div class="flex space-x-6 items-center text-sm">
+                    <span id="user-name-display" class="hidden font-bold neon-text-green"></span>
+                    <button id="nav-history-btn" onclick="showHistory()" class="hidden hover:text-white hover:neon-text transition-all">
+                        [ HISTORY ]
+                    </button>
+                    <button id="nav-logout-btn" onclick="handleLogout()" class="hidden neon-text-red hover:text-white transition-all">
+                        [ LOGOUT ]
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow pt-8 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full relative z-10">
+
+        <!-- ASCII Header -->
+        <pre class="neon-text text-center mb-12 text-sm sm:text-lg md:text-xl font-bold leading-tight">
+===================================
+ ATSFORGE
+ Resume Intelligence System
+===================================</pre>
+
+        <!-- View: Auth (Login/Register) -->
+        <div id="auth-view" class="block animate-fade-in">
+            <div class="terminal-box max-w-md mx-auto">
+                <p class="mb-6">> SYSTEM LOGIN REQUIRED.<span class="cursor-blink">_</span></p>
+                
+                <!-- Toggle Login/Register -->
+                <div class="flex mb-6 space-x-6 border-b border-[var(--border-neon)] pb-2">
+                    <button onclick="toggleAuthMode('login')" id="tab-login" class="neon-text font-bold">[ LOGIN ]</button>
+                    <button onclick="toggleAuthMode('register')" id="tab-register" class="text-[var(--text-dim)]">[ REGISTER ]</button>
+                </div>
+
+                <form id="auth-form" class="space-y-6">
+                    <div id="name-group" class="hidden">
+                        <label for="auth_name" class="block text-sm font-bold mb-2">> FULL_NAME</label>
+                        <input type="text" id="auth_name" name="name" class="w-full terminal-input px-2 py-2" placeholder="ENTER NAME...">
+                    </div>
+
+                    <div>
+                        <label for="auth_email" class="block text-sm font-bold mb-2">> EMAIL_ADDRESS</label>
+                        <input type="email" id="auth_email" name="email" required class="w-full terminal-input px-2 py-2" placeholder="ENTER EMAIL...">
+                    </div>
+
+                    <div>
+                        <label for="auth_password" class="block text-sm font-bold mb-2">> PASSWORD</label>
+                        <input type="password" id="auth_password" name="password" required class="w-full terminal-input px-2 py-2" placeholder="ENTER PASSWORD...">
+                    </div>
+
+                    <button type="submit" id="auth-btn" class="w-full terminal-btn py-3 mt-4">
+                        > EXECUTE LOGIN
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- View: Landing & Upload -->
+        <div id="upload-view" class="hidden animate-fade-in">
+            <div class="terminal-box">
+                <p class="mb-6">> UPLOAD_RESUME_DATA<span class="cursor-blink">_</span></p>
+                
+                <form id="analyze-form" class="space-y-8">
+                    <div>
+                        <label for="target_role" class="block text-sm font-bold mb-2">> TARGET_JOB_ROLE</label>
+                        <input type="text" id="target_role" name="target_role" required
+                            class="w-full terminal-input px-2 py-2"
+                            placeholder="e.g. Software Engineer">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold mb-2">> UPLOAD_FILE (PDF_ONLY)</label>
+                        <div id="drop-zone" class="drop-zone p-10 text-center cursor-pointer">
+                            <input type="file" id="resume_file" name="resume" accept="application/pdf" class="hidden">
+                            <div class="flex flex-col items-center justify-center space-y-4">
+                                <i class="fa-solid fa-terminal text-3xl neon-text mb-2"></i>
+                                <div>
+                                    <p class="text-lg font-bold">> CLICK_OR_DRAG_FILE</p>
+                                    <p class="text-sm text-[var(--text-dim)] mt-2">Maximum file size: 5MB</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- File selected indicator -->
+                        <div id="file-info" class="hidden mt-4 p-4 border border-[var(--text-success)] bg-[rgba(57,255,20,0.05)] flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-file-pdf neon-text-green text-2xl"></i>
+                                <div>
+                                    <p id="file-name" class="font-bold text-sm truncate max-w-[200px] sm:max-w-xs neon-text-green"></p>
+                                    <p id="file-size" class="text-xs text-[var(--text-dim)]"></p>
+                                </div>
+                            </div>
+                            <button type="button" id="remove-file-btn" class="text-[var(--text-error)] hover:neon-text-red">
+                                <i class="fa-solid fa-xmark text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="analyze-btn" class="w-full terminal-btn py-4 flex justify-center items-center gap-2">
+                        <span>> INITIATE_ANALYSIS</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- View: Loading -->
+        <div id="loading-view" class="hidden animate-fade-in flex flex-col items-center justify-center py-20">
+            <div class="terminal-box w-full max-w-2xl min-h-[300px]">
+                <div id="typewriter-container" class="font-bold whitespace-pre-wrap leading-loose"></div>
+                <span class="cursor-blink neon-text">_</span>
+            </div>
+        </div>
+
+        <!-- View: Dashboard (Results) -->
+        <div id="dashboard-view" class="hidden animate-fade-in space-y-8">
+            <button onclick="resetApp()" class="terminal-btn px-4 py-2 text-sm mb-4">
+                <i class="fa-solid fa-angle-left mr-2"></i> > RETURN_TO_SYSTEM
+            </button>
+            
+            <div class="terminal-box-green relative overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h2 class="text-xl font-bold mb-1">> TARGET_ROLE: <span id="display-role" class="neon-text-green"></span></h2>
+                        <p class="text-sm text-[var(--text-dim)]">> FILE: <span id="display-file"></span></p>
+                    </div>
+                    <div class="text-left md:text-right">
+                        <p class="text-sm font-bold mb-2">> [ ATS SCORE ]</p>
+                        <p class="text-4xl font-bold neon-text-green mb-2" id="score-text">0%</p>
+                        <p class="font-mono text-[var(--text-success)] tracking-widest text-lg" id="ascii-progress-bar"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Keywords -->
+                <div class="terminal-box">
+                    <h3 class="text-lg font-bold mb-4 neon-text">> [ KEYWORDS DETECTED ]</h3>
+                    <div id="keywords-container" class="flex flex-wrap gap-2">
+                        <!-- Filled via JS -->
+                    </div>
+                </div>
+
+                <!-- Missing Skills -->
+                <div class="terminal-box border-[var(--text-error)]">
+                    <h3 class="text-lg font-bold mb-4 neon-text-red">> [ MISSING SKILLS ]</h3>
+                    <div id="missing-skills-container" class="flex flex-wrap gap-2">
+                        <!-- Filled via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Feedback -->
+            <div class="terminal-box space-y-8">
+                <div>
+                    <h4 class="text-md font-bold mb-3 neon-text">> [ SYSTEM RECOMMENDATIONS ]</h4>
+                    <ul id="recommendations-list" class="space-y-2 text-sm list-none pl-0"></ul>
+                </div>
+                <div>
+                    <h4 class="text-md font-bold mb-3 neon-text">> [ PROJECT IMPROVEMENTS ]</h4>
+                    <ul id="projects-list" class="space-y-2 text-sm list-none pl-0"></ul>
+                </div>
+                <div>
+                    <h4 class="text-md font-bold mb-3 neon-text">> [ QUANTIFYING ACHIEVEMENTS ]</h4>
+                    <ul id="achievements-list" class="space-y-2 text-sm list-none pl-0"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- View: History -->
+        <div id="history-view" class="hidden animate-fade-in">
+            <button onclick="resetApp()" class="terminal-btn px-4 py-2 text-sm mb-8">
+                <i class="fa-solid fa-angle-left mr-2"></i> > RETURN_TO_SYSTEM
+            </button>
+            <div class="terminal-box">
+                <h2 class="text-2xl font-bold mb-6">> [ ANALYSIS HISTORY ]</h2>
+                <div id="history-container" class="space-y-4">
+                    <!-- History items injected here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[var(--border-neon)] bg-black/80 mt-auto py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm text-[var(--text-dim)]">> SYSTEM_BUILD_VERSION: ATSForge_v1.0</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-4 right-4 flex flex-col gap-2"></div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

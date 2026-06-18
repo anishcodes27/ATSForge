@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-color: #000000;
+  --text-main: #00f0ff; /* Neon Blue */
+  --text-success: #39ff14; /* Neon Green */
+  --text-error: #ff003c; /* Neon Red */
+  --text-dim: rgba(0, 240, 255, 0.5);
+  --border-neon: #00f0ff;
+}
+
+body {
+  font-family: 'Fira Code', monospace;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  overflow-x: hidden;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* CRT Scanline Effect */
+body::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 50;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Terminal Glow - Subdued for readability */
+.neon-text {
+  text-shadow: 0 0 2px var(--text-main), 0 0 4px var(--text-main);
+}
+.neon-text-green {
+  color: var(--text-success);
+  text-shadow: 0 0 2px var(--text-success), 0 0 4px var(--text-success);
+}
+.neon-text-red {
+  color: var(--text-error);
+  text-shadow: 0 0 2px var(--text-error), 0 0 4px var(--text-error);
+}
+
+.terminal-box {
+  border: 1px solid var(--border-neon);
+  background-color: rgba(0, 240, 255, 0.02);
+  box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.1), 0 0 10px rgba(0, 240, 255, 0.1);
+  padding: 1.5rem;
+}
+
+.terminal-box-green {
+  border: 1px solid var(--text-success);
+  background-color: rgba(57, 255, 20, 0.02);
+  box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.1), 0 0 10px rgba(57, 255, 20, 0.1);
+}
+
+/* Inputs & Buttons */
+.terminal-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--border-neon);
+  color: var(--text-main);
+  font-family: 'Fira Code', monospace;
+  transition: all 0.2s ease;
+  border-radius: 0;
+}
+.terminal-input:focus {
+  outline: none;
+  box-shadow: 0 5px 10px -5px var(--text-main);
+  border-bottom-color: var(--text-main);
+}
+
+.terminal-btn {
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid var(--border-neon);
+  color: var(--text-main);
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.terminal-btn:hover {
+  background: var(--text-main);
+  color: #000;
+  box-shadow: 0 0 15px var(--text-main);
+}
+
+.terminal-btn-success {
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid var(--text-success);
+  color: var(--text-success);
+}
+.terminal-btn-success:hover {
+  background: var(--text-success);
+  color: #000;
+  box-shadow: 0 0 15px var(--text-success);
+}
+
+/* Drag and Drop Zone */
+.drop-zone {
+  border: 1px dashed var(--border-neon);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+.drop-zone.dragover {
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+/* Blinking Cursor */
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border-left: 1px solid var(--border-neon);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--text-main);
+}
+
+/* Toasts */
+#toast-container {
+  z-index: 100;
+}
+.toast {
+  border: 1px solid var(--border-neon);
+  background: #000;
+  box-shadow: 0 0 10px var(--border-neon);
+  font-family: 'Fira Code', monospace;
+}
+.toast.success {
+  border-color: var(--text-success);
+  color: var(--text-success);
+  box-shadow: 0 0 10px var(--text-success);
+}
+.toast.error {
+  border-color: var(--text-error);
+  color: var(--text-error);
+  box-shadow: 0 0 10px var(--text-error);
+}
+
+/* Animations */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
