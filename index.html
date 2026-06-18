@@ -22,15 +22,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-4 cursor-pointer" onclick="resetApp()">
-                    <span class="font-bold text-xl tracking-widest neon-text">>_ ATSFORGE</span>
+                    <span class="font-bold text-xl tracking-widest neon-text-yellow">>_ <span class="neon-text-pink">ATS</span>FORGE</span>
                 </div>
                 <div class="flex space-x-6 items-center text-sm">
                     <span id="user-name-display" class="hidden font-bold neon-text-green"></span>
-                    <button id="nav-history-btn" onclick="showHistory()" class="hidden hover:text-white hover:neon-text transition-all">
-                        [ HISTORY ]
+                    <button id="nav-history-btn" onclick="showHistory()" class="hidden hover:neon-text-yellow transition-all">
+                        <span class="neon-text-pink">[</span> HISTORY <span class="neon-text-pink">]</span>
                     </button>
                     <button id="nav-logout-btn" onclick="handleLogout()" class="hidden neon-text-red hover:text-white transition-all">
-                        [ LOGOUT ]
+                        <span class="neon-text-pink">[</span> LOGOUT <span class="neon-text-pink">]</span>
                     </button>
                 </div>
             </div>
@@ -41,21 +41,21 @@
     <main class="flex-grow pt-8 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full relative z-10">
 
         <!-- ASCII Header -->
-        <pre class="neon-text text-center mb-12 text-sm sm:text-lg md:text-xl font-bold leading-tight">
-===================================
- ATSFORGE
- Resume Intelligence System
-===================================</pre>
+        <pre class="text-center mb-12 text-sm sm:text-lg md:text-xl font-bold leading-tight">
+<span class="neon-text-pink">===================================</span>
+ <span class="neon-text-yellow">ATSFORGE</span>
+ <span class="neon-text">Resume Intelligence System</span>
+<span class="neon-text-pink">===================================</span></pre>
 
         <!-- View: Auth (Login/Register) -->
         <div id="auth-view" class="block animate-fade-in">
             <div class="terminal-box max-w-md mx-auto">
-                <p class="mb-6">> SYSTEM LOGIN REQUIRED.<span class="cursor-blink">_</span></p>
+                <p class="mb-6 neon-text-yellow">> SYSTEM LOGIN REQUIRED.<span class="cursor-blink neon-text-pink">_</span></p>
                 
                 <!-- Toggle Login/Register -->
                 <div class="flex mb-6 space-x-6 border-b border-[var(--border-neon)] pb-2">
-                    <button onclick="toggleAuthMode('login')" id="tab-login" class="neon-text font-bold">[ LOGIN ]</button>
-                    <button onclick="toggleAuthMode('register')" id="tab-register" class="text-[var(--text-dim)]">[ REGISTER ]</button>
+                    <button onclick="toggleAuthMode('login')" id="tab-login" class="neon-text font-bold"><span class="neon-text-pink">[</span> LOGIN <span class="neon-text-pink">]</span></button>
+                    <button onclick="toggleAuthMode('register')" id="tab-register" class="text-[var(--text-dim)]"><span class="neon-text-pink">[</span> REGISTER <span class="neon-text-pink">]</span></button>
                 </div>
 
                 <form id="auth-form" class="space-y-6">
@@ -139,17 +139,17 @@
         <!-- View: Dashboard (Results) -->
         <div id="dashboard-view" class="hidden animate-fade-in space-y-8">
             <button onclick="resetApp()" class="terminal-btn px-4 py-2 text-sm mb-4">
-                <i class="fa-solid fa-angle-left mr-2"></i> > RETURN_TO_SYSTEM
+                <i class="fa-solid fa-angle-left mr-2 neon-text-pink"></i> > RETURN_TO_SYSTEM
             </button>
             
             <div class="terminal-box-green relative overflow-hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div>
-                        <h2 class="text-xl font-bold mb-1">> TARGET_ROLE: <span id="display-role" class="neon-text-green"></span></h2>
-                        <p class="text-sm text-[var(--text-dim)]">> FILE: <span id="display-file"></span></p>
+                        <h2 class="text-xl font-bold mb-1 neon-text-yellow">> TARGET_ROLE: <span id="display-role" class="neon-text-green"></span></h2>
+                        <p class="text-sm text-[var(--text-dim)]">> FILE: <span id="display-file" class="text-[var(--text-body)]"></span></p>
                     </div>
                     <div class="text-left md:text-right">
-                        <p class="text-sm font-bold mb-2">> [ ATS SCORE ]</p>
+                        <p class="text-sm font-bold mb-2 neon-text-pink">> [ ATS SCORE ]</p>
                         <p class="text-4xl font-bold neon-text-green mb-2" id="score-text">0%</p>
                         <p class="font-mono text-[var(--text-success)] tracking-widest text-lg" id="ascii-progress-bar"></p>
                     </div>
@@ -158,8 +158,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Keywords -->
-                <div class="terminal-box">
-                    <h3 class="text-lg font-bold mb-4 neon-text">> [ KEYWORDS DETECTED ]</h3>
+                <div class="terminal-box border-[var(--text-yellow)]">
+                    <h3 class="text-lg font-bold mb-4 neon-text-yellow">> <span class="neon-text-pink">[</span> KEYWORDS DETECTED <span class="neon-text-pink">]</span></h3>
                     <div id="keywords-container" class="flex flex-wrap gap-2">
                         <!-- Filled via JS -->
                     </div>
@@ -167,7 +167,7 @@
 
                 <!-- Missing Skills -->
                 <div class="terminal-box border-[var(--text-error)]">
-                    <h3 class="text-lg font-bold mb-4 neon-text-red">> [ MISSING SKILLS ]</h3>
+                    <h3 class="text-lg font-bold mb-4 neon-text-red">> <span class="neon-text-pink">[</span> MISSING SKILLS <span class="neon-text-pink">]</span></h3>
                     <div id="missing-skills-container" class="flex flex-wrap gap-2">
                         <!-- Filled via JS -->
                     </div>
@@ -177,15 +177,15 @@
             <!-- Detailed Feedback -->
             <div class="terminal-box space-y-8">
                 <div>
-                    <h4 class="text-md font-bold mb-3 neon-text">> [ SYSTEM RECOMMENDATIONS ]</h4>
+                    <h4 class="text-md font-bold mb-3 neon-text">> <span class="neon-text-pink">[</span> SYSTEM RECOMMENDATIONS <span class="neon-text-pink">]</span></h4>
                     <ul id="recommendations-list" class="space-y-2 text-sm list-none pl-0"></ul>
                 </div>
                 <div>
-                    <h4 class="text-md font-bold mb-3 neon-text">> [ PROJECT IMPROVEMENTS ]</h4>
+                    <h4 class="text-md font-bold mb-3 neon-text">> <span class="neon-text-pink">[</span> PROJECT IMPROVEMENTS <span class="neon-text-pink">]</span></h4>
                     <ul id="projects-list" class="space-y-2 text-sm list-none pl-0"></ul>
                 </div>
                 <div>
-                    <h4 class="text-md font-bold mb-3 neon-text">> [ QUANTIFYING ACHIEVEMENTS ]</h4>
+                    <h4 class="text-md font-bold mb-3 neon-text">> <span class="neon-text-pink">[</span> QUANTIFYING ACHIEVEMENTS <span class="neon-text-pink">]</span></h4>
                     <ul id="achievements-list" class="space-y-2 text-sm list-none pl-0"></ul>
                 </div>
             </div>
@@ -194,10 +194,10 @@
         <!-- View: History -->
         <div id="history-view" class="hidden animate-fade-in">
             <button onclick="resetApp()" class="terminal-btn px-4 py-2 text-sm mb-8">
-                <i class="fa-solid fa-angle-left mr-2"></i> > RETURN_TO_SYSTEM
+                <i class="fa-solid fa-angle-left mr-2 neon-text-pink"></i> > RETURN_TO_SYSTEM
             </button>
-            <div class="terminal-box">
-                <h2 class="text-2xl font-bold mb-6">> [ ANALYSIS HISTORY ]</h2>
+            <div class="terminal-box border-[var(--text-yellow)]">
+                <h2 class="text-2xl font-bold mb-6 neon-text-yellow">> <span class="neon-text-pink">[</span> ANALYSIS HISTORY <span class="neon-text-pink">]</span></h2>
                 <div id="history-container" class="space-y-4">
                     <!-- History items injected here -->
                 </div>

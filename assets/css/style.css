@@ -5,6 +5,9 @@
   --text-main: #00f0ff; /* Neon Blue */
   --text-success: #39ff14; /* Neon Green */
   --text-error: #ff003c; /* Neon Red */
+  --text-yellow: #fcee0a; /* Cyber Yellow */
+  --text-pink: #ff00ff; /* Neon Pink */
+  --text-body: #d1d5db; /* Light grey for basic text */
   --text-dim: rgba(0, 240, 255, 0.5);
   --border-neon: #00f0ff;
 }
@@ -12,7 +15,7 @@
 body {
   font-family: 'Fira Code', monospace;
   background-color: var(--bg-color);
-  color: var(--text-main);
+  color: var(--text-body);
   overflow-x: hidden;
   margin: 0;
   line-height: 1.6;
@@ -35,6 +38,7 @@ body::before {
 
 /* Terminal Glow - Subdued for readability */
 .neon-text {
+  color: var(--text-main);
   text-shadow: 0 0 2px var(--text-main), 0 0 4px var(--text-main);
 }
 .neon-text-green {
@@ -44,6 +48,14 @@ body::before {
 .neon-text-red {
   color: var(--text-error);
   text-shadow: 0 0 2px var(--text-error), 0 0 4px var(--text-error);
+}
+.neon-text-yellow {
+  color: var(--text-yellow);
+  text-shadow: 0 0 2px var(--text-yellow), 0 0 4px var(--text-yellow);
+}
+.neon-text-pink {
+  color: var(--text-pink);
+  text-shadow: 0 0 2px var(--text-pink), 0 0 4px var(--text-pink);
 }
 
 .terminal-box {

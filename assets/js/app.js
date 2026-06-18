@@ -293,7 +293,7 @@ function runTypewriterEffect() {
         if (msgIndex >= messages.length || views.loading.classList.contains('hidden')) return;
         
         const p = document.createElement('div');
-        p.className = 'text-[var(--text-dim)]';
+        p.className = 'neon-text-yellow';
         container.appendChild(p);
         
         let charIndex = 0;
@@ -339,7 +339,7 @@ function renderDashboard(data, targetRole, filename = "Unknown File") {
     if (data.keywords && data.keywords.length > 0) {
         data.keywords.forEach(kw => {
             const span = document.createElement('span');
-            span.className = 'px-3 py-1 border border-[var(--border-neon)] bg-[rgba(0,240,255,0.1)] text-[var(--text-main)] font-bold text-sm shadow-[0_0_5px_rgba(0,240,255,0.3)]';
+            span.className = 'px-3 py-1 border border-[var(--text-yellow)] bg-[rgba(252,238,10,0.1)] neon-text-yellow font-bold text-sm shadow-[0_0_5px_rgba(252,238,10,0.3)]';
             span.textContent = `> ${kw}`;
             keywordsContainer.appendChild(span);
         });
@@ -368,7 +368,7 @@ function renderDashboard(data, targetRole, filename = "Unknown File") {
         if (items && items.length > 0) {
             items.forEach(item => {
                 const li = document.createElement('li');
-                li.innerHTML = `<span class="neon-text">></span> ${item}`;
+                li.innerHTML = `<span class="neon-text-pink">></span> ${item}`;
                 list.appendChild(li);
             });
         } else {
